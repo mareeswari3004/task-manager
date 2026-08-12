@@ -5,7 +5,9 @@ import './LoginPage.css';
 
 function LoginPage() {
   const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
   const [role, setRole] = useState('user');
+  const [showPassword, setShowPassword] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -15,8 +17,15 @@ function LoginPage() {
       alert('Name போடுங்க!');
       return;
     }
-    login(name, role);
-    // Role பொறுத்து page redirect
+    if (!password.trim()) {
+      alert('Password போடுங்க!');
+      return;
+    }
+    if (password.length < 4) {
+      alert('Password குறைந்தது 4 characters இருக்கணும்!');
+      return;
+    }
+    login(name, role, password);
     if (role === 'admin') {
       navigate('/admin');
     } else {
@@ -35,6 +44,22 @@ function LoginPage() {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+
+        <div className="password-field">
+          <input
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button
+            type="button"
+            className="password-toggle"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? '🙈' : '👁️'}
+          </button>
+        </div>
 
         <div className="role-select">
           <label>

@@ -1,6 +1,8 @@
 import Board from '../components/Kanban/Board';
+import ProjectSidebar from '../components/Project/ProjectSidebar';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import NotificationBell from '../components/NotificationBell';
 
 function ManagementPage() {
   const { user, logout } = useAuth();
@@ -15,9 +17,15 @@ function ManagementPage() {
     <div>
       <div className="topbar">
         <span>Welcome, {user?.name}</span>
-        <button onClick={handleLogout}>Logout</button>
+        <div className="topbar-right">
+          <NotificationBell />
+          <button onClick={handleLogout}>Logout</button>
+        </div>
       </div>
-      <Board />
+      <div className="management-layout">
+        <ProjectSidebar />
+        <Board />
+      </div>
     </div>
   );
 }

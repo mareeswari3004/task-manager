@@ -1,7 +1,7 @@
 import { useDroppable } from '@dnd-kit/core';
 import TaskCard from './TaskCard';
 
-function Column({ id, title, tasks }) {
+function Column({ id, title, tasks, openTaskId, setOpenTaskId }) {
   const { setNodeRef, isOver } = useDroppable({ id });
 
   return (
@@ -13,7 +13,12 @@ function Column({ id, title, tasks }) {
       <h3>{title} ({tasks.length})</h3>
       <div className="column-tasks">
         {tasks.map((task) => (
-          <TaskCard key={task.id} task={task} />
+          <TaskCard
+            key={task.id}
+            task={task}
+            forceOpen={openTaskId === task.id}
+            onModalClose={() => setOpenTaskId(null)}
+          />
         ))}
       </div>
     </div>

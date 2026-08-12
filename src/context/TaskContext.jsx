@@ -3,9 +3,10 @@ import { createContext, useState, useContext, useEffect } from 'react';
 const TaskContext = createContext();
 
 const initialTasks = [
-  { id: '1', title: 'Design homepage', description: 'Create wireframe for homepage', status: 'todo' },
-  { id: '2', title: 'Setup database', description: 'Configure MongoDB schema', status: 'inprogress' },
-  { id: '3', title: 'Write tests', description: 'Unit tests for auth module', status: 'done' },
+  { id: '1', title: 'Design homepage', description: 'Create wireframe for homepage', status: 'todo', dueDate: '', projectId: 'p1', assignee: '' },
+  { id: '2', title: 'Setup database', description: 'Configure MongoDB schema', status: 'inprogress', dueDate: '', projectId: 'p1', assignee: '' },
+  { id: '3', title: 'Write tests', description: 'Unit tests for auth module', status: 'done', dueDate: '', projectId: 'p1', assignee: '' },
+  { id: '4', title: 'Design app icon', description: 'Create app icon variations', status: 'todo', dueDate: '', projectId: 'p2', assignee: '' },
 ];
 
 export function TaskProvider({ children }) {
@@ -34,8 +35,10 @@ export function TaskProvider({ children }) {
     updateTask(id, { status: newStatus });
   };
 
+  const getTasksByProject = (projectId) => tasks.filter((t) => t.projectId === projectId);
+
   return (
-    <TaskContext.Provider value={{ tasks, addTask, updateTask, deleteTask, moveTask }}>
+    <TaskContext.Provider value={{ tasks, addTask, updateTask, deleteTask, moveTask, getTasksByProject }}>
       {children}
     </TaskContext.Provider>
   );

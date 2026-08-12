@@ -1,23 +1,14 @@
 import { useState } from 'react';
-
-const initialUsers = [
-  { id: 1, name: 'Arun', role: 'Member' },
-  { id: 2, name: 'Priya', role: 'Member' },
-  { id: 3, name: 'Karthik', role: 'Manager' },
-];
+import { useUsers } from '../../context/UserContext';
 
 function UserList() {
-  const [users, setUsers] = useState(initialUsers);
+  const { users, addUser, removeUser } = useUsers();
   const [newName, setNewName] = useState('');
 
-  const addUser = () => {
+  const handleAdd = () => {
     if (!newName.trim()) return;
-    setUsers([...users, { id: Date.now(), name: newName, role: 'Member' }]);
+    addUser(newName);
     setNewName('');
-  };
-
-  const removeUser = (id) => {
-    setUsers(users.filter((u) => u.id !== id));
   };
 
   return (
@@ -30,7 +21,7 @@ function UserList() {
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
         />
-        <button onClick={addUser}>Add User</button>
+        <button onClick={handleAdd}>Add User</button>
       </div>
       <table className="user-table">
         <thead>

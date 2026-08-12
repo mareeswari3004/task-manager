@@ -16,7 +16,7 @@ export function AuthProvider({ children }) {
     }
   }, [user]);
 
-  const login = (name, role) => {
+  const login = (name, role, password) => {
     setUser({ name, role });
   };
 
