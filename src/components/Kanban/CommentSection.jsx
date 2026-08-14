@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useComments } from '../../context/CommentContext';
 import { useAuth } from '../../context/AuthContext';
 import { useActivity } from '../../context/ActivityContext';
+import { useNotifications } from '../../context/NotificationContext';
 
 function timeAgo(timestamp) {
   const seconds = Math.floor((new Date() - new Date(timestamp)) / 1000);
@@ -18,6 +19,7 @@ function CommentSection({ taskId, taskTitle }) {
   const { addComment, deleteComment, getComments } = useComments();
   const { user } = useAuth();
   const { logActivity } = useActivity();
+  const { addNotification } = useNotifications();
   const [text, setText] = useState('');
 
   const comments = getComments(taskId);
@@ -26,6 +28,7 @@ function CommentSection({ taskId, taskTitle }) {
     if (!text.trim()) return;
     addComment(taskId, user?.name || 'Anonymous', text);
     logActivity(user?.name || 'Someone', `commented on "${taskTitle}"`);
+    addNotification(`${user?.name || 'Someone'} commented on "${taskTitle}"`, 'info', taskId);
     setText('');
   };
 
